@@ -1,11 +1,3 @@
-module "cloudwatch_config" {
-  source               = "./cloudwatch_config"
-  cloudtrail_log_group = "${aws_cloudwatch_log_group.cloudtrail_log_group.name}"
-  alarm_actions        = ["${aws_sns_topic.security_alerts.arn}"]
-  environment_name     = "${var.environment_name}"
-  admin_whitelist      = ["${var.admin_whitelist}"]
-}
-
 resource "aws_sns_topic" "security_alerts" {
   name = "security-alerts-topic"
 }
@@ -109,4 +101,12 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
     ]
 }
 POLICY
+}
+
+output "cloudtrail_log_group" {
+  value = "${aws_cloudwatch_log_group.cloudtrail_log_group.id}"
+}
+
+output "security-alerts-topic" {
+  value = "${aws_sns_topic.security_alerts.arn}"
 }
