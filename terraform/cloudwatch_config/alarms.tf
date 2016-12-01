@@ -33,7 +33,7 @@ resource "aws_cloudwatch_metric_alarm" "unexpected-ip-access-alarm" {
 
 resource "aws_cloudwatch_log_metric_filter" "root-activity" {
   name = "root-user-activity"
-  pattern = "{$.userIdentity.type = Root}"
+  pattern = "{$.userIdentity.type = Root && $.sourceIPAddress != support.amazonaws.com}"
   log_group_name = "${var.cloudtrail_log_group}"
 
   metric_transformation {
