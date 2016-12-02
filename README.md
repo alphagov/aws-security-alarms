@@ -11,6 +11,8 @@ Terraform to setup CloudTrail for sending logs into CloudWatch. Creates metrics 
 
 ## Usage ##
 
+Example: [all-alarms.tf](examples/all-alarms.tf) sets up cloudtrail and enables the alarms provided here.
+
 Configure CloudTrail, CloudWatch and SNS:
 
 ```
@@ -31,3 +33,4 @@ module "unexpected-ip-access" {
   environment_name = "test"
 }
 ```
+

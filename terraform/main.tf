@@ -107,6 +107,6 @@ output "cloudtrail_log_group" {
   value = "${aws_cloudwatch_log_group.cloudtrail_log_group.id}"
 }
 
-output "security-alerts-topic" {
+output "security_alerts_topic" {
   value = "${aws_sns_topic.security_alerts.arn}"
 }
