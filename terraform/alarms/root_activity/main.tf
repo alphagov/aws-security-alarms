@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_log_metric_filter" "root-activity" {
   name = "root-user-activity"
-  pattern = "{$.userIdentity.type = Root && $.sourceIPAddress != support.amazonaws.com}"
+  pattern = "{$.userIdentity.type = Root && $.sourceIPAddress != *.amazonaws.com}"
   log_group_name = "${var.cloudtrail_log_group}"
 
   metric_transformation {
