@@ -13,6 +13,8 @@ Terraform to setup CloudTrail for sending logs into CloudWatch. Creates metrics 
 
 Example: [all-alarms.tf](examples/all-alarms.tf) sets up cloudtrail and enables the alarms provided here.
 
+When used as a module the `cloudtrail_s3_bucket_name` should be an existing S3 bucket name which may [be managed in a separate account](http://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-receive-logs-from-multiple-accounts.html).
+
 Configure CloudTrail, CloudWatch and SNS:
 
 ```

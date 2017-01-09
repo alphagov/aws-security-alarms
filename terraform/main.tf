@@ -1,12 +1,10 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_sns_topic" "security_alerts" {
   name = "security-alerts-topic"
 }
 
 resource "aws_cloudtrail" "cloudtrail" {
   name = "CloudTrail-all-regions"
-  s3_bucket_name = "${aws_s3_bucket.cloudtrail_bucket.id}"
+  s3_bucket_name = "${var.cloudtrail_s3_bucket_name}"
   s3_key_prefix = "${var.cloudtrail_s3_bucket_prefix}"
   include_global_service_events = true
   is_multi_region_trail = true
@@ -15,7 +13,7 @@ resource "aws_cloudtrail" "cloudtrail" {
 }
 
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
-  name = "CloudTrail/DefaultLogGroup"
+  name = "CloudTrail/LogGroup"
 }
 
 resource "aws_iam_role" "cloud_watch_logs_role" {
@@ -65,44 +63,6 @@ resource "aws_iam_role_policy" "cloud_watch_policy" {
   ]
 }
 EOF
-}
-
-resource "aws_s3_bucket" "cloudtrail_bucket" {
-  bucket = "${var.cloudtrail_s3_bucket_name}"
-  force_destroy = true
-  versioning = {
-    enabled = true
-  }
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AWSCloudTrailAclCheck",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::${var.cloudtrail_s3_bucket_name}"
-        },
-        {
-            "Sid": "AWSCloudTrailWrite",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${var.cloudtrail_s3_bucket_name}/${var.cloudtrail_s3_bucket_prefix}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-            }
-        }
-    ]
-}
-POLICY
 }
 
 output "cloudtrail_log_group" {
