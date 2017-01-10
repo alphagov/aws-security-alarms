@@ -10,10 +10,12 @@ resource "aws_cloudtrail" "cloudtrail" {
   is_multi_region_trail = true
   cloud_watch_logs_role_arn = "${aws_iam_role.cloud_watch_logs_role.arn}"
   cloud_watch_logs_group_arn = "${aws_cloudwatch_log_group.cloudtrail_log_group.arn}"
+  enable_log_file_validation = true
 }
 
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
   name = "CloudTrail/LogGroup"
+  retention_in_days = 90
 }
 
 resource "aws_iam_role" "cloud_watch_logs_role" {
