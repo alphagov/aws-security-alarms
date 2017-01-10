@@ -1,5 +1,5 @@
 data "template_file" "ip_rule" {
-  template = "{$.userIdentity.type = IAMUser && $.sourceIPAddress != AWS* && $.sourceIPAddress != $${ips} }"
+  template = "{$.userIdentity.type = IAMUser && $.sourceIPAddress != *amazonaws.com && $.sourceIPAddress != AWS* && $.sourceIPAddress != $${ips} }"
   vars {
     ips = "${join(" && $.sourceIPAddress != ", var.admin_whitelist)}"
   }
