@@ -17,7 +17,7 @@ When used as a module the `cloudtrail_s3_bucket_name` should be an existing S3 b
 
 Configure CloudTrail, CloudWatch and SNS:
 
-```
+```hcl
 module "aws-security-alarms" {
   source = "github.com/alphagov/aws-security-alarms//terraform"
   cloudtrail_s3_bucket_name = "some-bucket-to-store-cloudtrail-logs-in"
@@ -27,7 +27,7 @@ module "aws-security-alarms" {
 
 Enable individual alarms:
 
-```
+```hcl
 module "unexpected-ip-access" {
   source = "github.com/alphagov/aws-security-alarms//terraform/alarms/unexpected_ip_access"
   cloudtrail_log_group = "${module.aws-security-alarms.cloudtrail_log_group}"
